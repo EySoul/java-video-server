@@ -1,0 +1,96 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mydatabase
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - monitoring
+
+  gateway-api:
+    build: ./userway/
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_PASS: 123
+      # - DB_HOST=postgres
+      # - DB_PORT=5432
+      # - DB_PASS=123
+    # network_mode: bridge
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoring
+
+  video-service:
+    build: ./wehosty/
+    ports:
+      - "8081:8081"
+    networks:
+      - monitoring
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_PASS: 123
+      # - DB_HOST=postgres
+      # - DB_PORT=5432
+      # - DB_PASS=123
+    volumes:
+      - ./wehosty/videos:/app/videos
+    depends_on:
+      - postgres
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - gateway-api
+    networks:
+      - monitoring
+
+  social-service:
+    build: ./social-service/
+    ports:
+      - "8082:8082"
+    networks:
+      - monitoring
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_PASS: 123
+    depends_on:
+      - postgres
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+
+volumes:
+  grafana-storage:
+  postgres_data:

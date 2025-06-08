@@ -1,0 +1,3 @@
+<FilesMatch "\.mp4$">
+    SetHandler video/mp4
+</FilesMatch>
