@@ -21,10 +21,6 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_PASS: 123
-      # - DB_HOST=postgres
-      # - DB_PORT=5432
-      # - DB_PASS=123
-    # network_mode: bridge
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -43,9 +39,6 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_PASS: 123
-      # - DB_HOST=postgres
-      # - DB_PORT=5432
-      # - DB_PASS=123
     volumes:
       - ./wehosty/videos:/app/videos
     depends_on:
