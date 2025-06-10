@@ -33,10 +33,9 @@ public class SocialController {
         return exchange
             .getPrincipal()
             .flatMap(princiapal -> {
-                // System.out.println(exchange.getRequest().getPath());
                 return webClient
                     .method(exchange.getRequest().getMethod())
-                    .uri("/api" + exchange.getRequest().getPath().subPath(3))
+                    .uri("/api" + exchange.getRequest().getPath().subPath(4))
                     .bodyValue(
                         modifiedBody.put("username", princiapal.getName())
                     )
