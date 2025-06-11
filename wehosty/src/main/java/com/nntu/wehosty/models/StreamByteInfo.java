@@ -1,4 +1,4 @@
-package com.nntu.wehosty.controllers;
+package com.nntu.wehosty.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

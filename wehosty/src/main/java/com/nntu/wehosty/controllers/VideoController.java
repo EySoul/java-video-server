@@ -1,6 +1,7 @@
 package com.nntu.wehosty.controllers;
 
 import com.nntu.wehosty.exceptions.StorageException;
+import com.nntu.wehosty.models.StreamByteInfo;
 import com.nntu.wehosty.services.StorageService;
 import com.nntu.wehosty.services.VideoService;
 import java.util.List;
@@ -81,7 +82,7 @@ public class VideoController {
     }
 
     @PostMapping("/videos/upload")
-    public String fileUpload(
+    public ResponseEntity<String> fileUpload(
         @RequestParam("file") MultipartFile file,
         @RequestParam("image") MultipartFile image,
         @RequestParam("title") String title,
@@ -92,9 +93,8 @@ public class VideoController {
             storageService.store(file, nameString, title, description, image);
         } catch (StorageException e) {
             System.out.println("Не получилось" + e);
-            return "NONONO";
+            return ResponseEntity.badRequest().body(e.toString());
         }
-        System.out.println("Получилось");
-        return "yesyesyes";
+        return ResponseEntity.ok().body("Saved");
     }
 }

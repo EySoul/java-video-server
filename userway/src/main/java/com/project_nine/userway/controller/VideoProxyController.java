@@ -53,7 +53,6 @@ public class VideoProxyController {
             .bodyToMono(String.class);
     }
 
-    // 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
     @GetMapping(value = "/api/videos/**", produces = "video/mp4")
     public Mono<ResponseEntity<Flux<DataBuffer>>> getVideo(
         ServerWebExchange exchange

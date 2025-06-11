@@ -1,6 +1,6 @@
 package com.nntu.wehosty.services;
 
-import com.nntu.wehosty.controllers.StreamByteInfo;
+import com.nntu.wehosty.models.StreamByteInfo;
 import com.nntu.wehosty.models.VideoData;
 import com.nntu.wehosty.repositories.VideoRepository;
 import java.io.File;
@@ -49,7 +49,6 @@ public class VideoService {
         String uuid,
         HttpRange range
     ) {
-        System.out.println("Enter to getStream");
         String videoPathSt = "./videos/" + uuid;
         Path videoPath = Path.of(videoPathSt);
         File videoFile = new File(videoPathSt);
@@ -57,7 +56,6 @@ public class VideoService {
         if (!videoFile.exists()) {
             return Optional.empty();
         }
-        System.out.println("File found");
         try {
             long fileSize = Files.size(videoPath);
             long chunkSize = 2000000;
@@ -71,13 +69,11 @@ public class VideoService {
                     )
                 );
             }
-            System.out.println("has range");
             long rangeStart = range.getRangeStart(0);
             long rangeEnd = rangeStart + chunkSize;
             if (rangeEnd >= fileSize) {
                 rangeEnd = fileSize - 1;
             }
-            System.out.println("Try to out file");
             long finalRangeEnd = rangeEnd;
             return Optional.of(
                 new StreamByteInfo(
