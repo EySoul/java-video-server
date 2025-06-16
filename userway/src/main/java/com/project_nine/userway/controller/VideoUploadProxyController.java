@@ -1,5 +1,6 @@
 package com.project_nine.userway.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.http.codec.multipart.FilePart;
@@ -14,12 +15,12 @@ import reactor.core.publisher.Mono;
 @RestController
 public class VideoUploadProxyController {
 
-    private final WebClient webClient;
+    private final WebClient videoServiceWebClient;
 
-    public VideoUploadProxyController(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder
-            .baseUrl("http://video-service:8081")
-            .build();
+    public VideoUploadProxyController(
+        @Qualifier("videoServiceWebClient") WebClient videoUploadWebClient
+    ) {
+        this.videoServiceWebClient = videoUploadWebClient;
     }
 
     @PostMapping(
@@ -62,7 +63,7 @@ public class VideoUploadProxyController {
                 bodyBuilder.part("description", description);
                 bodyBuilder.part("author", principl.getName());
 
-                return webClient
+                return videoServiceWebClient
                     .post()
                     .uri("/videos/upload")
                     .contentType(MediaType.MULTIPART_FORM_DATA)

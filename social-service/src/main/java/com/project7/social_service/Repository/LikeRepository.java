@@ -18,3 +18,4 @@ public interface LikeRepository extends ReactiveCrudRepository<Like, Long> {
     Mono<Like> findByUsernameAndComment(String username, long comment);
     Mono<Like> save(Like like);
 }
+
