@@ -3,6 +3,7 @@ package com.project_nine.userway.controller;
 import com.project_nine.userway.service.MetricsService;
 import java.time.Duration;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class VideoProxyController {
     private final MetricsService metricsService;
 
     public VideoProxyController(
-        WebClient videoServiceWebClient,
-        MetricsService metricsService
+        @Qualifier("metricsService") MetricsService metricsService,
+        @Qualifier("videoServiceWebClient") WebClient videoServiceWebClient
     ) {
         this.webClient = videoServiceWebClient;
         this.metricsService = metricsService;
@@ -44,11 +45,11 @@ public class VideoProxyController {
             .bodyToFlux(String.class);
     }
 
-    @GetMapping("/api/videos/{id}")
+    @GetMapping("/api/video/{id}")
     public Mono<String> getVideoById(@PathVariable String id) {
         return webClient
             .get()
-            .uri("/api/videos/{id}", id)
+            .uri("/api/video/{id}", id)
             .retrieve()
             .bodyToMono(String.class);
     }

@@ -17,10 +17,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/social")
 public class SocialController {
 
-    private final WebClient webClient;
+    private final WebClient socialWebClient;
 
-    public SocialController(WebClient socialWebClient) {
-        this.webClient = socialWebClient;
+    public SocialController(
+        @Qualifier("socialWebClient") WebClient socialWebClient
+    ) {
+        this.socialWebClient = socialWebClient;
     }
 
     @RequestMapping("/like/**")
@@ -33,7 +35,7 @@ public class SocialController {
         return exchange
             .getPrincipal()
             .flatMap(princiapal -> {
-                return webClient
+                return socialWebClient
                     .method(exchange.getRequest().getMethod())
                     .uri("/api" + exchange.getRequest().getPath().subPath(4))
                     .bodyValue(
@@ -55,9 +57,9 @@ public class SocialController {
             .getPrincipal()
             .flatMap(princiapal -> {
                 modifiedBody.put("username", princiapal.getName());
-                return webClient
+                return socialWebClient
                     .method(exchange.getRequest().getMethod())
-                    .uri("/api" + exchange.getRequest().getPath().subPath(4))
+                    .uri("" + exchange.getRequest().getPath().subPath(3))
                     .bodyValue(modifiedBody)
                     .retrieve()
                     .toEntity(String.class);

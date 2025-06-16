@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface LikeRepository extends ReactiveCrudRepository<Like, Long> {
-    // Mono<List<Long>> findByUsername(String username);
     Mono<Like> findByUsernameAndVideoAndComment(
         String username,
         Long video,
@@ -18,5 +17,4 @@ public interface LikeRepository extends ReactiveCrudRepository<Like, Long> {
     Flux<Like> findByUsernameAndVideo(String username, Long video);
     Mono<Like> findByUsernameAndComment(String username, long comment);
     Mono<Like> save(Like like);
-    // Mono<Like> update(Like like);
 }

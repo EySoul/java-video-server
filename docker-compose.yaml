@@ -21,9 +21,6 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_PASS: 123
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
     ports:
       - "8080:8080"
     networks:

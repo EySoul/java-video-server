@@ -30,12 +30,10 @@ public class LikeController {
     public Mono<ResponseEntity<LikeResponseDTO>> add(
         @RequestBody Mono<Like> likeMono
     ) {
-        System.out.println("Enter to add");
         return likeMono
             .flatMap(like -> {
                 System.out.println(like);
                 if (like.isComment()) {
-                    System.out.println("Enter to iscomment");
                     return service
                         .findByUsernameAndComment(like)
                         .flatMap(exist ->
@@ -56,7 +54,6 @@ public class LikeController {
                                 )
                         );
                 }
-                System.out.println("Entre to not Comment");
                 return service
                     .findByUsernameAndVideoIdNoComment(like)
                     .flatMap(exist ->
