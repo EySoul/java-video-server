@@ -30,9 +30,6 @@ public class VideoData {
     @Column(name = "video_uuid")
     private String video_uuid;
 
-    @Column(name = "image_url")
-    private String image_url;
-
     @Column(name = "date_add")
     private LocalDateTime date_add;
 
@@ -42,5 +39,18 @@ public class VideoData {
     @PrePersist
     private void init() {
         date_add = LocalDateTime.now();
+        date_update = date_add;
+    }
+
+    public VideoData(
+        String uuid,
+        String title,
+        String description,
+        String author
+    ) {
+        this.video_uuid = uuid;
+        this.title = title;
+        this.description = description;
+        this.author = author;
     }
 }

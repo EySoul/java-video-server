@@ -32,9 +32,6 @@ public class LikeService {
         return likeRepository.save(like.switchType(type));
     }
 
-    // public Mono<Like> findByUsernameAndVideoId(String username, long video_id) {
-    //     return likeRepository.findByUsernameAndVideo(username, video_id);
-    // }
 
     public Mono<Like> findByUsernameAndVideoIdNoComment(Like like) {
         return likeRepository.findByUsernameAndVideoAndComment(

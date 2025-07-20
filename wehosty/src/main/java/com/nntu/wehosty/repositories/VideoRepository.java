@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VideoRepository extends JpaRepository<VideoData, Long> {
     VideoData getById(Long id);
+
+    @SuppressWarnings("unchecked")
+    VideoData save(VideoData videoData);
 }

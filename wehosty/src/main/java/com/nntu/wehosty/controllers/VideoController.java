@@ -2,11 +2,9 @@ package com.nntu.wehosty.controllers;
 
 import com.nntu.wehosty.exceptions.StorageException;
 import com.nntu.wehosty.models.StreamByteInfo;
-import com.nntu.wehosty.services.StorageService;
 import com.nntu.wehosty.services.VideoService;
+import java.io.IOException;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRange;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,16 +15,13 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 @RestController
-@RequiredArgsConstructor
 public class VideoController {
 
-    // private ResourceLoader resourceLoader;
-
-    @Autowired
     private VideoService videoService;
 
-    @Autowired
-    private final StorageService storageService;
+    public VideoController(VideoService videoService) {
+        this.videoService = videoService;
+    }
 
     @GetMapping(
         value = "/api/videos/{video}",
@@ -82,19 +77,37 @@ public class VideoController {
     }
 
     @PostMapping("/videos/upload")
-    public ResponseEntity<String> fileUpload(
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("image") MultipartFile image,
-        @RequestParam("title") String title,
-        @RequestParam("description") String description,
-        @RequestParam("author") String nameString
-    ) {
+    public ResponseEntity<UploadResponse> fileUpload(
+        @RequestPart UploadRequest request
+    ) throws IOException {
+        String uuid;
         try {
-            storageService.store(file, nameString, title, description, image);
+            uuid = videoService.UploadVideo(request);
         } catch (StorageException e) {
             System.out.println("Не получилось" + e);
-            return ResponseEntity.badRequest().body(e.toString());
+            return ResponseEntity.badRequest().body(
+                new UploadResponse("Error: " + e)
+            );
         }
-        return ResponseEntity.ok().body("Saved");
+        return ResponseEntity.ok().body(
+            new UploadResponse(String.format("Saved with uuid: %s", uuid))
+        );
     }
+
+    /**
+     * @param MPF video
+     * @param MPF image
+     * @param String title
+     * @param String desc
+     * @param String author
+     */
+    public record UploadRequest(
+        MultipartFile videoFile,
+        MultipartFile imageFile,
+        String title,
+        String description,
+        String author
+    ) {}
+
+    private record UploadResponse(String massage) {}
 }
