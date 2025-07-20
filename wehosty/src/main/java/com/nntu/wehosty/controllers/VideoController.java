@@ -41,7 +41,7 @@ public class VideoController {
         }
 
         StreamByteInfo streamByteInfo = videoService
-            .getSreamBytes(videoId, httpRange)
+            .getBytes(videoId, httpRange)
             .orElseThrow(() ->
                 new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
