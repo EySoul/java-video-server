@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-likes
+      author: Eysoul
+      changes:
+        - createTable:
+            tableName: likes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: video
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: bigint
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false

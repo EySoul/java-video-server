@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: social-service
+
+  # Server configuration
+  server:
+    port: 8082
+
+  # R2DBC configuration (reactive)
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/mydatabase
+    username: postgres
+    password: ${DB_PASS}
+
+  # JDBC configuration (for Liquibase)
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/mydatabase
+    username: postgres
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/mydatabase?ssl=false
+    user: postgres
+    password: ${DB_PASS}
+
+  # Actuator configuration
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+
+# Logging configuration
+logging:
+  level:
+    # Reactor and WebFlux logging
+    reactor.netty: debug
+    org.springframework.web.reactive: debug
+    reactor.core.publisher: trace
+    reactor.netty.http: debug
+
+    # R2DBC logging
+    org.springframework.data.r2dbc: debug
+    org.springframework.r2dbc: debug
+    io.r2dbc.postgresql: debug

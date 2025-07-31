@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-video_data
+      author: Eysoul
+      changes:
+        - createTable:
+            tableName: video
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: author
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: video_uuid
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_add
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_update
+                  type: datetime
+                  constraints:
+                    nullable: false

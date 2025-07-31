@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRange;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +25,9 @@ public class StorageService {
     private final Path rootLocation;
     private long defaultChunkSize = 2_000_000;
 
-    // private static final Logger log = Logger.getLogger(StorageService.class.getName());
+    // private static final Logger log = LoggerFactory.getLogger(
+    //     StorageService.class
+    // );
 
     public StorageService(Path root) {
         this.rootLocation = root;

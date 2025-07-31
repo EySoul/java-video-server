@@ -14,11 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
-@Table("users")
+@Table("user")
 public class User implements UserDetails {
 
     @Id
-    private String id;
+    private Long id;
 
     private String username;
     private String password;

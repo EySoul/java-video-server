@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-comment
+      author: Eysoul
+      changes:
+        - createTable:
+            tableName: comment
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: video
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent
+                  type: bigint
